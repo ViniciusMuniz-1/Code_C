@@ -1,35 +1,43 @@
 #include <stdio.h>
-#include <stdbool.h>
 
-#define MAX_N 10000
-#define MAX_NUM 1000000000
+int contar_carneirinhos_distintos(int quantc, int carneirinhos[]) {
+    int carneirinhos_distintos = 0;
+    int i, j, repetido;
 
-int main() {
-    int t, n, i, j, num, count;
-    bool seen[MAX_NUM+1];
+    for (i = 0; i < quantc; i++) {
+        repetido = 0;
 
-    scanf("%d", &t);
-
-    while (t--) {
-        scanf("%d", &n);
-
-        // Inicializa o vetor seen
-        for (i = 0; i <= MAX_NUM; i++) {
-            seen[i] = false;
-        }
-
-        count = 0;
-        for (i = 0; i < n; i++) {
-            scanf("%d", &num);
-
-            // Verifica se o número já foi visto antes
-            if (!seen[num]) {
-                seen[num] = true;
-                count++;
+        for (j = 0; j < i; j++) {
+            if (carneirinhos[i] == carneirinhos[j]) {
+                repetido = 1;
+                break;
             }
         }
 
-        printf("%d\n", count);
+        if (!repetido) {
+            carneirinhos_distintos++;
+        }
+    }
+
+    return carneirinhos_distintos;
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+
+    for (int i = 0; i < t; i++) {
+        int quantc;
+        scanf("%d", &quantc);
+
+        int carneirinhos[quantc];
+        for (int j = 0; j < quantc; j++) {
+            scanf("%d", &carneirinhos[j]);
+        }
+
+        int resultado = contar_carneirinhos_distintos(quantc, carneirinhos);
+
+        printf("%d\n", resultado);
     }
 
     return 0;

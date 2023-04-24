@@ -6,17 +6,6 @@
         unsigned int capacity;
     };
 
-    //Para o append, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último elemento
-    void array_list_append(struct array_list *list, int value){
-        if(list->size == list->capacity){
-            array_list_increase_capacity(list);
-            list->data[list->size+1] = value;
-        }
-        else{
-            list->data[list->size+1] = value;
-        }
-    }
-
     void array_list_increase_capacity(struct array_list *list){
         int * new_data = (int*)malloc(sizeof(int)*(list->capacity+10));
         for(int i = 0; i < list->capacity ; ++i){
@@ -25,6 +14,17 @@
         free(list->data);
         list->data = new_data;
         list->capacity = list->capacity+10;
+    }
+
+    //Para o append, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último elemento
+    void array_list_append(struct array_list *list, int value){
+        if(list->size == list->capacity){
+            array_list_increase_capacity(list);
+            list->data[list->size] = value;
+        }
+        else{
+            list->data[list->size] = value;
+        }
     }
 
     struct array_list * array_list_create(){
@@ -66,6 +66,8 @@
     int main(){
         struct array_list *list01 = array_list_create();
         array_list_read_until(list01,-1);
+        array_list_print(list01);
+        array_list_append(list01, 10);
         array_list_print(list01);
         printf("\n");
         free(list01->data);

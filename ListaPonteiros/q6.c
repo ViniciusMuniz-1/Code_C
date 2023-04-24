@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
     struct array_list{
         int *data;
         unsigned int size;
@@ -16,14 +17,14 @@
         list->capacity = list->capacity+10;
     }
 
-    //Para o append, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último elemento
+    //Para o append, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último index
     void array_list_append(struct array_list *list, int value){
         if(list->size == list->capacity){
             array_list_increase_capacity(list);
-            list->data[list->size] = value;
+            list->data[list->size++] = value;
         }
         else{
-            list->data[list->size] = value;
+            list->data[list->size++] = value;
         }
     }
 
@@ -47,9 +48,7 @@
     void array_list_read_until(struct array_list *list, int end_reading){
         int x;
         while (scanf("%d",&x),x!=end_reading){
-            if (list->size==list->capacity)
-            array_list_increase_capacity(list);
-            list->data[list->size++] = x;
+            array_list_append(list , x);            // Chamando a função array_list_append passando a lista e o elemento a ser adicionado
         }
     }
 
@@ -64,9 +63,10 @@
     }
 
     int main(){
-        struct array_list *list01 = array_list_create();
+        struct array_list *list01 = array_list_create(); // Criando o array
         array_list_read_until(list01,-1);
         array_list_print(list01);
+        printf("\n");
         array_list_append(list01, 10);
         array_list_print(list01);
         printf("\n");

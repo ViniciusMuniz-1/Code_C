@@ -34,21 +34,17 @@
     }
 
     unsigned int array_list_insert(struct array_list *list, int value, int index){
-        if(index < list->size && index >= 0){
-            for(int i = 0; i<list->size; i++){
-                if(index==i){
-                    list->size++;
-                    for(int j = index-1; j<list->size; j++){
-                        list->data[i] = list->data[i-1];
-                    }
-                    list->data[i] = value;
-                }
-            }
-            return list->size;
-        }
-        else{
+        if(index<0 || index > list->size){
             return -1;
         }
+
+        if(index == list->size) {
+            array_list_append(list, value);
+            return list->size++;
+        }
+
+        if()
+        return true;
     }
 
     struct array_list * array_list_clone(struct array_list *list){
@@ -112,7 +108,7 @@
         array_list_read_until(list01,-1);
         array_list_print(list01);
         printf("\n");
-        array_list_insert(list01, 5, 4);
+        array_list_insert(list01, 4, 3);
         array_list_print(list01);
         free(list01->data);
         free(list01);

@@ -43,8 +43,21 @@
             return list->size++;
         }
 
-        if()
-        return true;
+        int a = list->data[index], b = list->data[index+1], c = list->data[index+2];
+        for(int i = 0; i<list->size; i++){
+            if(i == index){
+                for(int j = index; j < list->size; j++){
+                    list->data[j+1] = a;
+                    a = b;
+                    b = c;
+                    c = list->data[j+i];
+                }
+            }
+        }
+
+        list->data[index] = value;
+        
+        return list->size++;
     }
 
     struct array_list * array_list_clone(struct array_list *list){

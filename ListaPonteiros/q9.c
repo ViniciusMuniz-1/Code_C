@@ -33,6 +33,41 @@
         }
     }
 
+   void array_list_remove(struct array_list *list, int value, int index) {
+    if (list == NULL || index < 0 || index >= list->size) {
+        return; // Verificar se a lista é válida e se o índice está dentro dos limites
+    }
+
+    int i;
+    int found = 0;
+
+    // Procurar o elemento a ser removido a partir do índice fornecido
+    for (i = index; i < list->size; i++) {
+        if (list->data[i] == value) {
+            found = 1;
+            break;
+        }
+    }
+
+    if (found) {
+        // Remover o elemento encontrado
+        for (; i < list->size - 1; i++) {
+            list->data[i] = list->data[i + 1];
+        }
+
+        list->size--;
+
+        // Verificar se é necessário diminuir a capacidade do array
+        if (list->capacity - list->size >= 10) {
+            int *new_data = (int *)realloc(list->data, sizeof(int) * (list->capacity - 10));
+            if (new_data != NULL) {
+                list->data = new_data;
+                list->capacity -= 10;
+            }
+        }
+    }
+} 
+
     unsigned int array_list_insert(struct array_list *list, int value, int index){
         if(index<0 || index > list->size){
             return -1;

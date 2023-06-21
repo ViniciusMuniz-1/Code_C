@@ -1,29 +1,33 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
+#include <algorithm>
 
 using namespace std;
 
 typedef vector<double> vi;
 
 int main(){
-    int qtdp = 0, nota = 0, aux = 0;
+    int qtdp = 0, nota = 0;
 
-    cin >> qtdp >> nota;
+    while (cin >> qtdp >> nota){
+        vi notas(qtdp), medias;
 
-    vi notas(qtdp), medias(qtdp*(nota+1));
-
-    for(int i = 0; i < qtdp; ++i){
-        cin >> notas[i];
-    }
-    
-    for(int i = 0; i < qtdp; i++){
-        for(int j = i+1; j < qtdp; j++){
-            for(int k = j+1; k < qtdp; k++){
-                medias[aux] = (notas[i] + notas[j] + notas[k])/3;
-                cout << (notas[i] + notas[j] + notas[k])/3 << " ";
-                aux++;
+        for(int i = 0; i < qtdp; ++i){
+            cin >> notas[i];
+        }
+        
+        for(int i = 0; i < qtdp; i++){
+            for(int j = i+1; j < qtdp; j++){
+                for(int k = j+1; k < qtdp; k++){
+                    double media = (notas[i]+notas[j]+notas[k])/3.0;
+                    medias.push_back(media);
+                }
             }
         }
+        sort(medias.begin(), medias.end());
+        cout << fixed << setprecision(1) << medias[medias.size()-nota] << endl;
     }
-    cout << medias[nota];
+
+    return 0;
 }

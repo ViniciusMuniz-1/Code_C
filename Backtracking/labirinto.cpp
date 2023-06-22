@@ -18,6 +18,7 @@ int labirinto_bt(int labirinto[20][20], int linha, int coluna, int x, int y){
     labirinto_bt(labirinto, linha, coluna, x, y-1);
 
     labirinto[y][x] = 0;
+
     return ans;
 }
 

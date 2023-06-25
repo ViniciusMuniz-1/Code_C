@@ -1,11 +1,12 @@
 #include <iostream>
 #include <algorithm>
+#include <climits>  //para tentar usar o int max dps
 
 using namespace std;
 
 int caminho(int matriz[12][12], int linha, int coluna, int x, int y){
-    if (x==-1 || y==-1 || x==coluna || y==linha || matriz[y][x]!=0){
-        return 0;
+    if (x<0 || y<0 || x>=coluna || y>=linha || matriz[y][x]!=0){//condições alteradas para ver se isso funciona
+        return 10000000; //retornando valor mais alto possível para pegar o menor caminha
     }
     if (x==coluna-1 && y==linha-1){
         return 1;
@@ -13,16 +14,16 @@ int caminho(int matriz[12][12], int linha, int coluna, int x, int y){
 
     matriz[y][x] = 1;
 
-    int ans = 0 ;
+    int ans = 10000000; //valor mais alto possível para pegar o menor caminha
 
-    ans = caminho(matriz, linha, coluna, x, y+1);
-    int ans2 = caminho(matriz, linha, coluna, x+1, y);
-    int ans3 = caminho(matriz, linha, coluna, x-1, y);
-    int ans4 =caminho(matriz, linha, coluna, x, y-1);
+    ans = min(ans, 1+caminho(matriz, linha, coluna, x, y + 1)); //baixo
+    ans = min(ans, 1+caminho(matriz, linha, coluna, x + 1, y)); //direita
+    ans = min(ans, 1+caminho(matriz, linha, coluna, x - 1, y)); //esquerda
+    ans = min(ans, 1+caminho(matriz, linha, coluna, x, y - 1)); //cima
 
     matriz[y][x] = 0;
 
-    return 1+min(min(ans, ans2), min(ans3,ans4));
+    return ans;
 }
 
 int main(){
@@ -37,7 +38,11 @@ int main(){
         }
     }
     int saida = caminho(matriz, n, m, 0, 0);
-    cout << saida;
+    if (saida == 10000000) {
+        cout << -1 << endl; // n tem caminho
+    } else {
+        cout << saida << endl;
+    }
 
     return 0;
 }

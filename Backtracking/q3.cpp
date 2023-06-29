@@ -13,14 +13,14 @@ int esforco(int matriz[8][8], int linhas, int colunas, int lInicio, int cInicio,
 
     int oldValue = matriz[contrLinha][contrColuna];
 
-    matriz[contrLinha][contrColuna] == -1;
+    matriz[contrLinha][contrColuna] = -1;
 
     int ans = 10000000;
 
-    ans = min(ans, oldValue+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha, contrColuna+1));                      //baixo
-    ans = min(ans, oldValue+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha+1, contrColuna));                             //direita
-    ans = min(ans, oldValue+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha-1, contrColuna));                             //esquerda
-    ans = min(ans, oldValue+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha, contrColuna-1));                              //cima
+    ans = min(ans, 1+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha, contrColuna+1));                      //baixo
+    ans = min(ans, 1+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha+1, contrColuna));                             //direita
+    ans = min(ans, 1+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha-1, contrColuna));                             //esquerda
+    ans = min(ans, 1+esforco(matriz, linhas, colunas, lInicio, cInicio, lFinal, cFinal, contrLinha, contrColuna-1));                              //cima
 
     matriz[contrColuna][contrLinha] = oldValue;
 

@@ -61,6 +61,17 @@
         return new_list;
     }
 
+    //Para o append, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último index
+    void array_list_append(struct array_list *list, int value){
+        if(list->size == list->capacity){
+            array_list_increase_capacity(list);
+            list->data[list->size++] = value;
+        }
+        else{
+            list->data[list->size++] = value;
+        }
+    }
+
     //LÊ UM VETOR
     void array_list_read_until(struct array_list *list, int end_reading){
         int x;
@@ -89,8 +100,8 @@
 
     //Retorna a quantiade de elementos existente na lista;
     //COMPLEXIDADE: O(1)
-    unsigned int array_list_size(array_list_int * list){
-        return size;
+    unsigned int array_list_size(struct array_list * list){
+        return list->size;
     }
 
     //Para o push_back, saber o tamanho vai ser a chave, visto que o último elemento deve ser adicionado no último index
@@ -106,7 +117,7 @@
         }
     }
 
-    unsigned int array_list_insert(struct array_list *list, int value, int index){
+    unsigned int array_list_insert_at(struct array_list *list, int value, int index){
         if(index<0 || index > list->size){
             return -1;
         }
@@ -133,39 +144,36 @@
         return list->size++;
     }
 
-    void array_list_remove(struct array_list *list, int value, int index) {
-    if (list == NULL || index < 0 || index >= list->size) {
-        return; // Verificar se a lista é válida e se o índice está dentro dos limites
-    }
-
-    int i;
-    int found = 0;
-
-    // Procurar o elemento a ser removido a partir do índice fornecido
-    for (i = index; i < list->size; i++) {
-        if (list->data[i] == value) {
-            found = 1;
-            break;
+    int array_list_remove_from(struct array_list *list, int index) {
+        if (list == NULL || index < 0 || index >= list->size) {
+            return -1; // Verificar se a lista é válida e se o índice está dentro dos limites
         }
-    }
 
-        if (found) {
-            // Remover o elemento encontrado
-            for (; i < list->size - 1; i++) {
-                list->data[i] = list->data[i + 1];
-            }
+        if(index == list->size-1){
+            array_list_pop_back(list);
+            return list->size;
+        }
 
-            list->size--;
-
-            // Verificar se é necessário diminuir a capacidade do array
-            if (list->capacity - list->size >= 10) {
-                int *new_data = (int *)realloc(list->data, sizeof(int) * (list->capacity - 10));
-                if (new_data != NULL) {
-                    list->data = new_data;
-                    list->capacity -= 10;
+        // Remover o elemento encontrado
+        int a = list->data[index+1];
+        for (int i = 0; i < list->size; i++) {
+            if(i == index){
+                for(int j = index; j < list->size; j++){
+                    list->data[j] = list->data[j+1];
                 }
             }
         }
+
+        // Verificando se é necessário diminuir a capacidade do array
+        if (list->capacity - list->size >= 0) {
+            int *new_data = (int *)realloc(list->data, sizeof(int) * (list->capacity - 10));
+            if (new_data != NULL) {
+                list->data = new_data;
+                list->capacity -= 10;
+            }
+        }
+
+        return list->size;
     }
 
     int main(){
@@ -173,7 +181,9 @@
         array_list_read_until(list01,-1);
         array_list_print(list01);
         printf("\n");
-        array_list_insert(list01, 4, 3);
+        array_list_insert_at(list01, 4, 3);
+        array_list_print(list01);
+        array_list_remove_from(list01, 4);
         array_list_print(list01);
         free(list01->data);
         free(list01);

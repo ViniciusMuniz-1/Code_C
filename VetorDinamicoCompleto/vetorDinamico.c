@@ -155,14 +155,19 @@
         }
 
         // Remover o elemento encontrado
-        int a = list->data[index+1];
-        for (int i = 0; i < list->size; i++) {
-            if(i == index){
-                for(int j = index; j < list->size; j++){
-                    list->data[j] = list->data[j+1];
-                }
+        int tam = 0;
+        int* new_data = (int*)malloc(sizeof(int) * list->size-1); //New data with -1 space
+        for(int i = 0; i < list->size; i++){
+            if(i != index){
+                new_data[tam] = list->data[i];
+                tam++;
             }
         }
+
+        free(list->data);
+        list->data = new_data;
+        list->size--;
+        return array_list_size(list);
 
         // Verificando se é necessário diminuir a capacidade do array
         if (list->capacity - list->size >= 0) {
@@ -183,7 +188,7 @@
         printf("\n");
         array_list_insert_at(list01, 4, 3);
         array_list_print(list01);
-        array_list_remove_from(list01, 4);
+        array_list_remove_from(list01, 1);
         array_list_print(list01);
         free(list01->data);
         free(list01);
